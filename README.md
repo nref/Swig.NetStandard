@@ -8,6 +8,7 @@ Covers the following use cases:
 - Cross-language polymorphism with SWIG Directors. 
     - See the Tests project.
 - Shared Pointers (std::shared_ptr) are mapped correctly
+- Verify that SWIG maps C++ macros that contain shared pointer forward-declarations
 - Pseudo-interfaces wth C++ pure virtual classes 
     - Actual C# interfaces are not supported well by SWIG
 - Verify that SWIG handles C++ namespace conflicts with C# "base" keyword
