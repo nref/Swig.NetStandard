@@ -15,3 +15,5 @@ Covers the following use cases:
 - Project-based segregation of C++ and C# code.
     - Automatic copying of the generated C# code to the C# project
     - Automatic copying of the source library DLL to the C# project output directory
+
+Thanks to https://github.com/xkbeyer/example_swig_cs_cpp for providing a starting point.
