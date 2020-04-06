@@ -7,7 +7,7 @@ namespace base // Intentionally conflict with C# 'base' keyword
 {
 	CLASS_FORWARD(HasTest);
 
-	class HasTest : ITest
+	class HasTest : public ITest
 	{
 	public:
 
@@ -23,6 +23,11 @@ namespace base // Intentionally conflict with C# 'base' keyword
 		int GetValue() override
 		{
 			return _test->GetValue();
+		}
+
+		virtual ~HasTest()
+		{
+
 		}
 
 	private:

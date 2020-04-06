@@ -375,11 +375,113 @@ struct SWIG_null_deleter {
 #define SWIG_NO_NULL_DELETER_SWIG_POINTER_OWN
 
 
+#include <string>
+
+
+  #include <functional>
+  #include <iostream>
+
+  #ifndef SWIG_DIRECTORS
+  #error "std_function.i: Directors must be enabled"
+  #endif
+
+
+      struct ReturnsVoidDirector {
+        virtual ~ReturnsVoidDirector() {}
+        virtual void Invoke(std::string) = 0;
+      };
+    
+SWIGINTERN std::function< void (std::string) > *new_std_function_Sl_void_Sp_std_string_SP__Sg___SWIG_2(ReturnsVoidDirector *in){
+            return new std::function<void(std::string)>([=](/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  std::string&& arg0
+/*@SWIG@*/){
+                  return in->Invoke(/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  std::forward<std::string>(arg0)
+/*@SWIG@*/);
+            });
+          }
+
+      struct ReturnsDoubleDirector {
+        virtual ~ReturnsDoubleDirector() {}
+        virtual double Invoke(int,double) = 0;
+      };
+    
+SWIGINTERN std::function< double (int,double) > *new_std_function_Sl_double_Sp_int_Sc_double_SP__Sg___SWIG_2(ReturnsDoubleDirector *in){
+            return new std::function<double(int,double)>([=](/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  int&& arg0, double&& arg1
+/*@SWIG@*/){
+                  return in->Invoke(/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  std::forward<int>(arg0), std::forward<double>(arg1)
+/*@SWIG@*/);
+            });
+          }
+
+    static std::string string_side_effect = "";
+    static double double_side_effect = 0;
+
+    class Input
+    {
+    public:
+        std::string Value = "";
+    };
+
+    class Output
+    {
+    public:
+        Output(const Input* input) : Input(input) { }
+        const Input* Input = nullptr;
+    };
+
+    std::function<void(std::string)> make_set_string_side_effect_callback() {
+        return [](std::string s) {
+            string_side_effect = s;
+        };
+    }
+
+    using InputOutputFunc = std::function<std::shared_ptr<Output>(const Input*)>;
+    InputOutputFunc test_shared_ptr() {
+        return [=](const Input* input){
+            return std::make_shared<Output>(input);
+        };
+    }
+
+    std::function<double(int,double)> make_add_set_double_side_effect_callback() {
+        return [](int x, double y) {
+            double_side_effect = x + y;
+            return x + y;
+        };
+    }
+
+    double invoke_callback(std::function<double(int,double)> in) {
+        return in(1, 2.5);
+    }
+
+
+      struct ReturnsSharedPtrDirector {
+        virtual ~ReturnsSharedPtrDirector() {}
+        virtual std::shared_ptr<Output> Invoke(const Input*) = 0;
+      };
+    
+SWIGINTERN std::function< std::shared_ptr< Output > (Input const *) > *new_std_function_Sl_std_shared_ptr_Sl_Output_Sg__Sp_Input_SS_const_Sm__SP__Sg___SWIG_2(ReturnsSharedPtrDirector *in){
+            return new std::function<std::shared_ptr<Output>(const Input*)>([=](/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  const Input*&& arg0
+/*@SWIG@*/){
+                  return in->Invoke(/*@SWIG:std_function.i,26,FOR_EACH@*/ 
+  std::forward<const Input*>(arg0)
+/*@SWIG@*/);
+            });
+          }
+
 
 #include "ClassForward.h"
 #include "ITest.h"
 #include "Test.h"
 #include "HasTest.h"
+
+double add(int a, double b) 
+{
+    return a + b;
+}
 
 
 
@@ -418,6 +520,11 @@ int SwigDirector_Test::GetValue() {
   }
   return c_result;
 }
+
+SwigDirector_Test::~SwigDirector_Test() {
+  
+}
+
 
 void SwigDirector_Test::swig_connect_director(SWIG_Callback0_t callbackSetValue, SWIG_Callback1_t callbackGetValue) {
   swig_callbackSetValue = callbackSetValue;
@@ -458,6 +565,11 @@ int SwigDirector_HasTest::GetValue() {
   return c_result;
 }
 
+SwigDirector_HasTest::~SwigDirector_HasTest() {
+  
+}
+
+
 void SwigDirector_HasTest::swig_connect_director(SWIG_Callback0_t callbackSetValue, SWIG_Callback1_t callbackGetValue) {
   swig_callbackSetValue = callbackSetValue;
   swig_callbackGetValue = callbackGetValue;
@@ -466,6 +578,107 @@ void SwigDirector_HasTest::swig_connect_director(SWIG_Callback0_t callbackSetVal
 void SwigDirector_HasTest::swig_init_callbacks() {
   swig_callbackSetValue = 0;
   swig_callbackGetValue = 0;
+}
+
+SwigDirector_ReturnsVoidDirector::SwigDirector_ReturnsVoidDirector() : ReturnsVoidDirector(), Swig::Director() {
+  swig_init_callbacks();
+}
+
+SwigDirector_ReturnsVoidDirector::~SwigDirector_ReturnsVoidDirector() {
+  
+}
+
+
+void SwigDirector_ReturnsVoidDirector::Invoke(std::string arg0) {
+  char * jarg0  ;
+  
+  if (!swig_callbackInvoke) {
+    Swig::DirectorPureVirtualException::raise("ReturnsVoidDirector::Invoke");
+    return;
+  } else {
+    jarg0 = SWIG_csharp_string_callback((&arg0)->c_str()); 
+    swig_callbackInvoke(jarg0);
+  }
+}
+
+void SwigDirector_ReturnsVoidDirector::swig_connect_director(SWIG_Callback0_t callbackInvoke) {
+  swig_callbackInvoke = callbackInvoke;
+}
+
+void SwigDirector_ReturnsVoidDirector::swig_init_callbacks() {
+  swig_callbackInvoke = 0;
+}
+
+SwigDirector_ReturnsDoubleDirector::SwigDirector_ReturnsDoubleDirector() : ReturnsDoubleDirector(), Swig::Director() {
+  swig_init_callbacks();
+}
+
+SwigDirector_ReturnsDoubleDirector::~SwigDirector_ReturnsDoubleDirector() {
+  
+}
+
+
+double SwigDirector_ReturnsDoubleDirector::Invoke(int arg0, double arg1) {
+  double c_result = SwigValueInit< double >() ;
+  double jresult = 0 ;
+  int jarg0  ;
+  double jarg1  ;
+  
+  if (!swig_callbackInvoke) {
+    Swig::DirectorPureVirtualException::raise("ReturnsDoubleDirector::Invoke");
+    return c_result;
+  } else {
+    jarg0 = arg0;
+    jarg1 = arg1;
+    jresult = (double) swig_callbackInvoke(jarg0, jarg1);
+    c_result = (double)jresult; 
+  }
+  return c_result;
+}
+
+void SwigDirector_ReturnsDoubleDirector::swig_connect_director(SWIG_Callback0_t callbackInvoke) {
+  swig_callbackInvoke = callbackInvoke;
+}
+
+void SwigDirector_ReturnsDoubleDirector::swig_init_callbacks() {
+  swig_callbackInvoke = 0;
+}
+
+SwigDirector_ReturnsSharedPtrDirector::SwigDirector_ReturnsSharedPtrDirector() : ReturnsSharedPtrDirector(), Swig::Director() {
+  swig_init_callbacks();
+}
+
+SwigDirector_ReturnsSharedPtrDirector::~SwigDirector_ReturnsSharedPtrDirector() {
+  
+}
+
+
+std::shared_ptr< Output > SwigDirector_ReturnsSharedPtrDirector::Invoke(Input const *arg0) {
+  std::shared_ptr< Output > c_result ;
+  void * jresult = 0 ;
+  void * jarg0 = 0 ;
+  
+  if (!swig_callbackInvoke) {
+    Swig::DirectorPureVirtualException::raise("ReturnsSharedPtrDirector::Invoke");
+    return c_result;
+  } else {
+    jarg0 = (void *) arg0; 
+    jresult = (void *) swig_callbackInvoke(jarg0);
+    if (jresult) {
+      std::shared_ptr<  Output > *smartarg = (std::shared_ptr<  Output > *)jresult;
+      c_result = *smartarg;
+    }
+    
+  }
+  return c_result;
+}
+
+void SwigDirector_ReturnsSharedPtrDirector::swig_connect_director(SWIG_Callback0_t callbackInvoke) {
+  swig_callbackInvoke = callbackInvoke;
+}
+
+void SwigDirector_ReturnsSharedPtrDirector::swig_init_callbacks() {
+  swig_callbackInvoke = 0;
 }
 
 
@@ -580,6 +793,17 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Test_GetValueSwigExplicitTest(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Test(void * jarg1) {
+  base::Test *arg1 = (base::Test *) 0 ;
+  std::shared_ptr< base::Test > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  base::Test > *)jarg1;
+  arg1 = (base::Test *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_Test_Value_set(void * jarg1, int jarg2) {
   base::Test *arg1 = (base::Test *) 0 ;
   int arg2 ;
@@ -605,17 +829,6 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Test_Value_get(void * jarg1) {
   result = (int) ((arg1)->Value);
   jresult = result; 
   return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_Test(void * jarg1) {
-  base::Test *arg1 = (base::Test *) 0 ;
-  std::shared_ptr< base::Test > *smartarg1 = 0 ;
-  
-  
-  smartarg1 = (std::shared_ptr<  base::Test > *)jarg1;
-  arg1 = (base::Test *)(smartarg1 ? smartarg1->get() : 0); 
-  (void)arg1; delete smartarg1;
 }
 
 
@@ -719,7 +932,535 @@ SWIGEXPORT void SWIGSTDCALL CSharp_HasTest_director_connect(void *objarg, SwigDi
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_add_cb_get() {
+  void * jresult ;
+  double (*result)(int,double) = 0 ;
+  
+  result = (double (*)(int,double))add;
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_add(int jarg1, double jarg2) {
+  double jresult ;
+  int arg1 ;
+  double arg2 ;
+  double result;
+  
+  arg1 = (int)jarg1; 
+  arg2 = (double)jarg2; 
+  result = (double)add(arg1,arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsVoidDirector(void * jarg1) {
+  ReturnsVoidDirector *arg1 = (ReturnsVoidDirector *) 0 ;
+  
+  arg1 = (ReturnsVoidDirector *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ReturnsVoidDirector_Invoke(void * jarg1, char * jarg2) {
+  ReturnsVoidDirector *arg1 = (ReturnsVoidDirector *) 0 ;
+  std::string arg2 ;
+  SwigDirector_ReturnsVoidDirector *darg = 0;
+  
+  arg1 = (ReturnsVoidDirector *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  (&arg2)->assign(jarg2); 
+  darg = dynamic_cast<SwigDirector_ReturnsVoidDirector *>(arg1);
+  (darg)->Invoke(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsVoidDirector() {
+  void * jresult ;
+  ReturnsVoidDirector *result = 0 ;
+  
+  result = (ReturnsVoidDirector *)new SwigDirector_ReturnsVoidDirector();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ReturnsVoidDirector_director_connect(void *objarg, SwigDirector_ReturnsVoidDirector::SWIG_Callback0_t callback0) {
+  ReturnsVoidDirector *obj = (ReturnsVoidDirector *)objarg;
+  SwigDirector_ReturnsVoidDirector *director = static_cast<SwigDirector_ReturnsVoidDirector *>(obj);
+  director->swig_connect_director(callback0);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsVoid__SWIG_0(void * jarg1) {
+  void * jresult ;
+  std::function< void (std::string) > *arg1 = 0 ;
+  std::function< void (std::string) > *result = 0 ;
+  
+  arg1 = (std::function< void (std::string) > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::function< void (std::string) > const & type is null", 0);
+    return 0;
+  } 
+  result = (std::function< void (std::string) > *)new std::function< void (std::string) >((std::function< void (std::string) > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ReturnsVoid_Invoke(void * jarg1, char * jarg2) {
+  std::function< void (std::string) > *arg1 = (std::function< void (std::string) > *) 0 ;
+  std::string arg2 ;
+  
+  arg1 = (std::function< void (std::string) > *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  (&arg2)->assign(jarg2); 
+  ((std::function< void (std::string) > const *)arg1)->operator ()(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsVoid__SWIG_1(void * jarg1) {
+  void * jresult ;
+  void (*arg1)(std::string) = (void (*)(std::string)) (void (*)(std::string))0 ;
+  std::function< void (std::string) > *result = 0 ;
+  
+  arg1 = (void (*)(std::string))jarg1; 
+  result = (std::function< void (std::string) > *)new std::function< void (std::string) >(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsVoid__SWIG_2(void * jarg1) {
+  void * jresult ;
+  ReturnsVoidDirector *arg1 = (ReturnsVoidDirector *) 0 ;
+  std::function< void (std::string) > *result = 0 ;
+  
+  arg1 = (ReturnsVoidDirector *)jarg1; 
+  result = (std::function< void (std::string) > *)new_std_function_Sl_void_Sp_std_string_SP__Sg___SWIG_2(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsVoid(void * jarg1) {
+  std::function< void (std::string) > *arg1 = (std::function< void (std::string) > *) 0 ;
+  
+  arg1 = (std::function< void (std::string) > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsDoubleDirector(void * jarg1) {
+  ReturnsDoubleDirector *arg1 = (ReturnsDoubleDirector *) 0 ;
+  
+  arg1 = (ReturnsDoubleDirector *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_ReturnsDoubleDirector_Invoke(void * jarg1, int jarg2, double jarg3) {
+  double jresult ;
+  ReturnsDoubleDirector *arg1 = (ReturnsDoubleDirector *) 0 ;
+  int arg2 ;
+  double arg3 ;
+  SwigDirector_ReturnsDoubleDirector *darg = 0;
+  double result;
+  
+  arg1 = (ReturnsDoubleDirector *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (double)jarg3; 
+  darg = dynamic_cast<SwigDirector_ReturnsDoubleDirector *>(arg1);
+  result = (double)(darg)->Invoke(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsDoubleDirector() {
+  void * jresult ;
+  ReturnsDoubleDirector *result = 0 ;
+  
+  result = (ReturnsDoubleDirector *)new SwigDirector_ReturnsDoubleDirector();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ReturnsDoubleDirector_director_connect(void *objarg, SwigDirector_ReturnsDoubleDirector::SWIG_Callback0_t callback0) {
+  ReturnsDoubleDirector *obj = (ReturnsDoubleDirector *)objarg;
+  SwigDirector_ReturnsDoubleDirector *director = static_cast<SwigDirector_ReturnsDoubleDirector *>(obj);
+  director->swig_connect_director(callback0);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsDouble__SWIG_0(void * jarg1) {
+  void * jresult ;
+  std::function< double (int,double) > *arg1 = 0 ;
+  std::function< double (int,double) > *result = 0 ;
+  
+  arg1 = (std::function< double (int,double) > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::function< double (int,double) > const & type is null", 0);
+    return 0;
+  } 
+  result = (std::function< double (int,double) > *)new std::function< double (int,double) >((std::function< double (int,double) > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_ReturnsDouble_Invoke(void * jarg1, int jarg2, double jarg3) {
+  double jresult ;
+  std::function< double (int,double) > *arg1 = (std::function< double (int,double) > *) 0 ;
+  int arg2 ;
+  double arg3 ;
+  double result;
+  
+  arg1 = (std::function< double (int,double) > *)jarg1; 
+  arg2 = (int)jarg2; 
+  arg3 = (double)jarg3; 
+  result = (double)((std::function< double (int,double) > const *)arg1)->operator ()(arg2,arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsDouble__SWIG_1(void * jarg1) {
+  void * jresult ;
+  double (*arg1)(int,double) = (double (*)(int,double)) (double (*)(int,double))0 ;
+  std::function< double (int,double) > *result = 0 ;
+  
+  arg1 = (double (*)(int,double))jarg1; 
+  result = (std::function< double (int,double) > *)new std::function< double (int,double) >(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsDouble__SWIG_2(void * jarg1) {
+  void * jresult ;
+  ReturnsDoubleDirector *arg1 = (ReturnsDoubleDirector *) 0 ;
+  std::function< double (int,double) > *result = 0 ;
+  
+  arg1 = (ReturnsDoubleDirector *)jarg1; 
+  result = (std::function< double (int,double) > *)new_std_function_Sl_double_Sp_int_Sc_double_SP__Sg___SWIG_2(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsDouble(void * jarg1) {
+  std::function< double (int,double) > *arg1 = (std::function< double (int,double) > *) 0 ;
+  
+  arg1 = (std::function< double (int,double) > *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_string_side_effect_set(char * jarg1) {
+  std::string *arg1 = 0 ;
+  
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  string_side_effect = *arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_string_side_effect_get() {
+  char * jresult ;
+  std::string *result = 0 ;
+  
+  result = (std::string *) &string_side_effect;
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_double_side_effect_set(double jarg1) {
+  double arg1 ;
+  
+  arg1 = (double)jarg1; 
+  double_side_effect = arg1;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_double_side_effect_get() {
+  double jresult ;
+  double result;
+  
+  result = (double)double_side_effect;
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Input_Value_set(void * jarg1, char * jarg2) {
+  Input *arg1 = (Input *) 0 ;
+  std::string *arg2 = 0 ;
+  
+  arg1 = (Input *)jarg1; 
+  if (!jarg2) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
+    return ;
+  }
+  std::string arg2_str(jarg2);
+  arg2 = &arg2_str; 
+  if (arg1) (arg1)->Value = *arg2;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_Input_Value_get(void * jarg1) {
+  char * jresult ;
+  Input *arg1 = (Input *) 0 ;
+  std::string *result = 0 ;
+  
+  arg1 = (Input *)jarg1; 
+  result = (std::string *) & ((arg1)->Value);
+  jresult = SWIG_csharp_string_callback(result->c_str()); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Input() {
+  void * jresult ;
+  Input *result = 0 ;
+  
+  result = (Input *)new Input();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Input(void * jarg1) {
+  Input *arg1 = (Input *) 0 ;
+  
+  arg1 = (Input *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_Output(void * jarg1) {
+  void * jresult ;
+  Input *arg1 = (Input *) 0 ;
+  Output *result = 0 ;
+  
+  arg1 = (Input *)jarg1; 
+  result = (Output *)new Output((Input const *)arg1);
+  
+  jresult = result ? new std::shared_ptr<  Output >(result SWIG_NO_NULL_DELETER_1) : 0;
+  
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_Output_Input_set(void * jarg1, void * jarg2) {
+  Output *arg1 = (Output *) 0 ;
+  Input *arg2 = (Input *) 0 ;
+  std::shared_ptr< Output > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  Output > *)jarg1;
+  arg1 = (Output *)(smartarg1 ? smartarg1->get() : 0); 
+  arg2 = (Input *)jarg2; 
+  if (arg1) (arg1)->Input = (Input const *)arg2;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_Output_Input_get(void * jarg1) {
+  void * jresult ;
+  Output *arg1 = (Output *) 0 ;
+  std::shared_ptr< Output > *smartarg1 = 0 ;
+  Input *result = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  Output > *)jarg1;
+  arg1 = (Output *)(smartarg1 ? smartarg1->get() : 0); 
+  result = (Input *) ((arg1)->Input);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_Output(void * jarg1) {
+  Output *arg1 = (Output *) 0 ;
+  std::shared_ptr< Output > *smartarg1 = 0 ;
+  
+  
+  smartarg1 = (std::shared_ptr<  Output > *)jarg1;
+  arg1 = (Output *)(smartarg1 ? smartarg1->get() : 0); 
+  (void)arg1; delete smartarg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_make_set_string_side_effect_callback() {
+  void * jresult ;
+  SwigValueWrapper< std::function< void (std::string) > > result;
+  
+  result = make_set_string_side_effect_callback();
+  jresult = new std::function< void (std::string) >((const std::function< void (std::string) > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_test_shared_ptr() {
+  void * jresult ;
+  SwigValueWrapper< std::function< std::shared_ptr< Output > (Input const *) > > result;
+  
+  result = test_shared_ptr();
+  jresult = new InputOutputFunc((const InputOutputFunc &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_make_add_set_double_side_effect_callback() {
+  void * jresult ;
+  SwigValueWrapper< std::function< double (int,double) > > result;
+  
+  result = make_add_set_double_side_effect_callback();
+  jresult = new std::function< double (int,double) >((const std::function< double (int,double) > &)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT double SWIGSTDCALL CSharp_invoke_callback(void * jarg1) {
+  double jresult ;
+  SwigValueWrapper< std::function< double (int,double) > > arg1 ;
+  std::function< double (int,double) > *argp1 ;
+  double result;
+  
+  argp1 = (std::function< double (int,double) > *)jarg1; 
+  if (!argp1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null std::function< double (int,double) >", 0);
+    return 0;
+  }
+  arg1 = *argp1; 
+  result = (double)invoke_callback(arg1);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsSharedPtrDirector(void * jarg1) {
+  ReturnsSharedPtrDirector *arg1 = (ReturnsSharedPtrDirector *) 0 ;
+  
+  arg1 = (ReturnsSharedPtrDirector *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_ReturnsSharedPtrDirector_Invoke(void * jarg1, void * jarg2) {
+  void * jresult ;
+  ReturnsSharedPtrDirector *arg1 = (ReturnsSharedPtrDirector *) 0 ;
+  Input *arg2 = (Input *) 0 ;
+  SwigDirector_ReturnsSharedPtrDirector *darg = 0;
+  std::shared_ptr< Output > result;
+  
+  arg1 = (ReturnsSharedPtrDirector *)jarg1; 
+  arg2 = (Input *)jarg2; 
+  darg = dynamic_cast<SwigDirector_ReturnsSharedPtrDirector *>(arg1);
+  result = (darg)->Invoke((Input const *)arg2);
+  jresult = result ? new std::shared_ptr< Output >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsSharedPtrDirector() {
+  void * jresult ;
+  ReturnsSharedPtrDirector *result = 0 ;
+  
+  result = (ReturnsSharedPtrDirector *)new SwigDirector_ReturnsSharedPtrDirector();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_ReturnsSharedPtrDirector_director_connect(void *objarg, SwigDirector_ReturnsSharedPtrDirector::SWIG_Callback0_t callback0) {
+  ReturnsSharedPtrDirector *obj = (ReturnsSharedPtrDirector *)objarg;
+  SwigDirector_ReturnsSharedPtrDirector *director = static_cast<SwigDirector_ReturnsSharedPtrDirector *>(obj);
+  director->swig_connect_director(callback0);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsSharedPtr__SWIG_0(void * jarg1) {
+  void * jresult ;
+  std::function< std::shared_ptr< Output > (Input const *) > *arg1 = 0 ;
+  std::function< std::shared_ptr< Output > (Input const *) > *result = 0 ;
+  
+  arg1 = (std::function< std::shared_ptr< Output > (Input const *) > *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "std::function< std::shared_ptr< Output > (Input const *) > const & type is null", 0);
+    return 0;
+  } 
+  result = (std::function< std::shared_ptr< Output > (Input const *) > *)new std::function< std::shared_ptr< Output > (Input const *) >((std::function< std::shared_ptr< Output > (Input const *) > const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_ReturnsSharedPtr_Invoke(void * jarg1, void * jarg2) {
+  void * jresult ;
+  std::function< std::shared_ptr< Output > (Input const *) > *arg1 = (std::function< std::shared_ptr< Output > (Input const *) > *) 0 ;
+  Input *arg2 = (Input *) 0 ;
+  std::shared_ptr< Output > result;
+  
+  arg1 = (std::function< std::shared_ptr< Output > (Input const *) > *)jarg1; 
+  arg2 = (Input *)jarg2; 
+  result = ((std::function< std::shared_ptr< Output > (Input const *) > const *)arg1)->operator ()((Input const *)arg2);
+  jresult = result ? new std::shared_ptr< Output >(result) : 0; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsSharedPtr__SWIG_1(void * jarg1) {
+  void * jresult ;
+  std::shared_ptr< Output > (*arg1)(Input const *) = (std::shared_ptr< Output > (*)(Input const *)) (std::shared_ptr< Output > (*)(Input const *))0 ;
+  std::function< std::shared_ptr< Output > (Input const *) > *result = 0 ;
+  
+  arg1 = (std::shared_ptr< Output > (*)(Input const *))jarg1; 
+  result = (std::function< std::shared_ptr< Output > (Input const *) > *)new std::function< std::shared_ptr< Output > (Input const *) >(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_ReturnsSharedPtr__SWIG_2(void * jarg1) {
+  void * jresult ;
+  ReturnsSharedPtrDirector *arg1 = (ReturnsSharedPtrDirector *) 0 ;
+  std::function< std::shared_ptr< Output > (Input const *) > *result = 0 ;
+  
+  arg1 = (ReturnsSharedPtrDirector *)jarg1; 
+  result = (std::function< std::shared_ptr< Output > (Input const *) > *)new_std_function_Sl_std_shared_ptr_Sl_Output_Sg__Sp_Input_SS_const_Sm__SP__Sg___SWIG_2(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_ReturnsSharedPtr(void * jarg1) {
+  std::function< std::shared_ptr< Output > (Input const *) > *arg1 = (std::function< std::shared_ptr< Output > (Input const *) > *) 0 ;
+  
+  arg1 = (std::function< std::shared_ptr< Output > (Input const *) > *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT std::shared_ptr< base::ITest > * SWIGSTDCALL CSharp_Test_SWIGSmartPtrUpcast(std::shared_ptr< base::Test > *jarg1) {
+    return jarg1 ? new std::shared_ptr< base::ITest >(*jarg1) : 0;
+}
+
+SWIGEXPORT std::shared_ptr< base::ITest > * SWIGSTDCALL CSharp_HasTest_SWIGSmartPtrUpcast(std::shared_ptr< base::HasTest > *jarg1) {
     return jarg1 ? new std::shared_ptr< base::ITest >(*jarg1) : 0;
 }
 

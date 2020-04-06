@@ -9,20 +9,20 @@
 //------------------------------------------------------------------------------
 
 
-public class ITest : global::System.IDisposable {
+public class Output : global::System.IDisposable {
   private global::System.Runtime.InteropServices.HandleRef swigCPtr;
   private bool swigCMemOwnBase;
 
-  internal ITest(global::System.IntPtr cPtr, bool cMemoryOwn) {
+  internal Output(global::System.IntPtr cPtr, bool cMemoryOwn) {
     swigCMemOwnBase = cMemoryOwn;
     swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
   }
 
-  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(ITest obj) {
+  internal static global::System.Runtime.InteropServices.HandleRef getCPtr(Output obj) {
     return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
   }
 
-  ~ITest() {
+  ~Output() {
     Dispose(false);
   }
 
@@ -36,22 +36,27 @@ public class ITest : global::System.IDisposable {
       if (swigCPtr.Handle != global::System.IntPtr.Zero) {
         if (swigCMemOwnBase) {
           swigCMemOwnBase = false;
-          native_wrapPINVOKE.delete_ITest(swigCPtr);
+          native_wrapPINVOKE.delete_Output(swigCPtr);
         }
         swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
       }
     }
   }
 
-  public virtual void SetValue(int value) {
-    native_wrapPINVOKE.ITest_SetValue(swigCPtr, value);
-    if (native_wrapPINVOKE.SWIGPendingException.Pending) throw native_wrapPINVOKE.SWIGPendingException.Retrieve();
+  public Output(Input input) : this(native_wrapPINVOKE.new_Output(Input.getCPtr(input)), true) {
   }
 
-  public virtual int GetValue() {
-    int ret = native_wrapPINVOKE.ITest_GetValue(swigCPtr);
-    if (native_wrapPINVOKE.SWIGPendingException.Pending) throw native_wrapPINVOKE.SWIGPendingException.Retrieve();
-    return ret;
+  public Input Input {
+    set {
+      native_wrapPINVOKE.Output_Input_set(swigCPtr, Input.getCPtr(value));
+      if (native_wrapPINVOKE.SWIGPendingException.Pending) throw native_wrapPINVOKE.SWIGPendingException.Retrieve();
+    } 
+    get {
+      global::System.IntPtr cPtr = native_wrapPINVOKE.Output_Input_get(swigCPtr);
+      Input ret = (cPtr == global::System.IntPtr.Zero) ? null : new Input(cPtr, false);
+      if (native_wrapPINVOKE.SWIGPendingException.Pending) throw native_wrapPINVOKE.SWIGPendingException.Retrieve();
+      return ret;
+    } 
   }
 
 }

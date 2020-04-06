@@ -60,4 +60,7 @@
   <ItemGroup>
     <CustomBuild Include="native.i" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="std_function.i" />
+  </ItemGroup>
 </Project>

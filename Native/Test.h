@@ -23,6 +23,11 @@ namespace base // Intentionally conflict with C# 'base' keyword
 			return Value;
 		}
 
+		virtual ~Test() 
+		{
+
+		}
+
 		int Value;
 	};
 }

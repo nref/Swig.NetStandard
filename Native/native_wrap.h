@@ -17,6 +17,7 @@ public:
     SwigDirector_Test();
     virtual void SetValue(int value);
     virtual int GetValue();
+    virtual ~SwigDirector_Test();
 
     typedef void (SWIGSTDCALL* SWIG_Callback0_t)(int);
     typedef int (SWIGSTDCALL* SWIG_Callback1_t)();
@@ -34,6 +35,7 @@ public:
     SwigDirector_HasTest(base::ITestPtr const &test);
     virtual void SetValue(int value);
     virtual int GetValue();
+    virtual ~SwigDirector_HasTest();
 
     typedef void (SWIGSTDCALL* SWIG_Callback0_t)(int);
     typedef int (SWIGSTDCALL* SWIG_Callback1_t)();
@@ -42,6 +44,51 @@ public:
 private:
     SWIG_Callback0_t swig_callbackSetValue;
     SWIG_Callback1_t swig_callbackGetValue;
+    void swig_init_callbacks();
+};
+
+struct SwigDirector_ReturnsVoidDirector : public ReturnsVoidDirector, public Swig::Director {
+
+public:
+    SwigDirector_ReturnsVoidDirector();
+    virtual ~SwigDirector_ReturnsVoidDirector();
+    virtual void Invoke(std::string arg0);
+
+    typedef void (SWIGSTDCALL* SWIG_Callback0_t)(char *);
+    void swig_connect_director(SWIG_Callback0_t callbackInvoke);
+
+private:
+    SWIG_Callback0_t swig_callbackInvoke;
+    void swig_init_callbacks();
+};
+
+struct SwigDirector_ReturnsDoubleDirector : public ReturnsDoubleDirector, public Swig::Director {
+
+public:
+    SwigDirector_ReturnsDoubleDirector();
+    virtual ~SwigDirector_ReturnsDoubleDirector();
+    virtual double Invoke(int arg0, double arg1);
+
+    typedef double (SWIGSTDCALL* SWIG_Callback0_t)(int, double);
+    void swig_connect_director(SWIG_Callback0_t callbackInvoke);
+
+private:
+    SWIG_Callback0_t swig_callbackInvoke;
+    void swig_init_callbacks();
+};
+
+struct SwigDirector_ReturnsSharedPtrDirector : public ReturnsSharedPtrDirector, public Swig::Director {
+
+public:
+    SwigDirector_ReturnsSharedPtrDirector();
+    virtual ~SwigDirector_ReturnsSharedPtrDirector();
+    virtual std::shared_ptr< Output > Invoke(Input const *arg0);
+
+    typedef void * (SWIGSTDCALL* SWIG_Callback0_t)(void *);
+    void swig_connect_director(SWIG_Callback0_t callbackInvoke);
+
+private:
+    SWIG_Callback0_t swig_callbackInvoke;
     void swig_init_callbacks();
 };
 
