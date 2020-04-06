@@ -22,7 +22,7 @@ Covers the following use cases:
     
     Test.h
     ``` 
-	class Test : ...
+	class Test : public ITest
 	{
     public:
         ...
