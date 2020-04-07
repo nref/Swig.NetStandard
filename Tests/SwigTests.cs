@@ -38,10 +38,12 @@ namespace Tests
         [Test]
         public void Cpp_Calls_Cs_ClassMember()
         {
-            var hasTest = new HasTest(new DerivedTest());
+            var test = new DerivedTest();
+            var hasTest = new HasTest(test);
 
             hasTest.SetValue(4);
             Assert.AreEqual(8, hasTest.GetValue());
+            Assert.AreEqual(8, test.GetValue());
         }
 
         /// <summary>
