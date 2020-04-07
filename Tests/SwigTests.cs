@@ -130,3 +130,4 @@ namespace Tests
             Assert.AreEqual(native_wrap.double_side_effect, result); // Value set in native.i
         }
     }
+}
