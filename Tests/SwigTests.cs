@@ -10,9 +10,11 @@ namespace Tests
         [Test]
         public void Cs_ObjectInitializer_Sets_Cpp_ClassMember()
         {
-            var hasTest = new HasTest(new Test { Value = 5 });
+            var test = new Test { Value = 5 };
+            var hasTest = new HasTest(test);
 
             Assert.AreEqual(5, hasTest.GetValue());
+            Assert.AreEqual(5, test.GetValue());
         }
 
         /// <summary>
@@ -21,10 +23,12 @@ namespace Tests
         [Test]
         public void Cs_Calls_Cpp_ClassMember()
         {
-            var hasTest = new HasTest(new Test());
+            var test = new Test();
+            var hasTest = new HasTest(test);
 
             hasTest.SetValue(6);
             Assert.AreEqual(6, hasTest.GetValue());
+            Assert.AreEqual(6, test.GetValue());
         }
 
         /// <summary>
