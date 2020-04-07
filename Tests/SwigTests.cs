@@ -130,19 +130,3 @@ namespace Tests
             Assert.AreEqual(native_wrap.double_side_effect, result); // Value set in native.i
         }
     }
-
-    class DerivedTest : Test
-    {
-        public override void SetValue(int value)
-        {
-            _myValue = 2 * value;
-        }
-
-        public override int GetValue()
-        {
-            return _myValue;
-        }
-
-        private int _myValue = 0;
-    }
-}
