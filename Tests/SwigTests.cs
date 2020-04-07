@@ -41,7 +41,7 @@ namespace Tests
         }
 
         /// <summary>
-        /// Verify that a SWIG callback returning void can be called in C#
+        /// Verify that a SWIG callback returning a value can be called in C#
         /// </summary>
         [Test]
         public void Cs_Calls_Swig_Nonvoid_Function()
@@ -56,17 +56,19 @@ namespace Tests
         [Test]
         public void Cs_Calls_Swig_Nonvoid_Callback()
         {
-            double result = new ReturnsDouble(native_wrap.add_cb).Invoke(2, 2.2);
+            var callback = new ReturnsDouble(native_wrap.add_cb);
+            double result = callback.Invoke(2, 2.2);
             Assert.AreEqual(4.2, result);
         }
 
         /// <summary>
-        /// Verify that std::function taking std::shared_ptr to a const pointer can be called in C#
+        /// Verify that std::function returning std::shared_ptr and taking a const pointer can be called in C#
         /// </summary>
         [Test]
-        public void Cs_Calls_shared_pointer_to_const()
+        public void Cs_Calls_func_taking_const_pointer_returning_shared_pointer()
         {
-            var output = native_wrap.test_shared_ptr().Invoke(new Input { Value = "test" });
+            var callback = native_wrap.test_shared_ptr();
+            var output = callback.Invoke(new Input { Value = "test" });
             Assert.AreEqual("test", output.Input.Value);
         }
 
@@ -76,7 +78,8 @@ namespace Tests
         [Test]
         public void Cs_Calls_std_function_Void_Callback()
         {
-            native_wrap.make_set_string_side_effect_callback().Invoke("test");
+            var callback = native_wrap.make_set_string_side_effect_callback();
+            callback.Invoke("test");
             Assert.AreEqual("test", native_wrap.string_side_effect);
         }
 
@@ -86,7 +89,9 @@ namespace Tests
         [Test]
         public void Cs_Calls_std_function_Callback()
         {
-            native_wrap.make_add_set_double_side_effect_callback().Invoke(1, 2.5);
+            var callback = native_wrap.make_add_set_double_side_effect_callback();
+            var result = callback.Invoke(1, 2.5);
+            Assert.AreEqual(3.5, result);
             Assert.AreEqual(3.5, native_wrap.double_side_effect);
         }
 
@@ -96,7 +101,15 @@ namespace Tests
         [Test]
         public void Cpp_Calls_Cs_Callback()
         {
-            var result = native_wrap.invoke_callback(new ReturnsDouble((i, d) => i + d));
+            bool called = false;
+            var callback = new ReturnsDouble((i, d) =>
+            {
+                called = true;
+                return i + d;
+            });
+
+            var result = native_wrap.invoke_callback(callback);
+            Assert.IsTrue(called);
             Assert.AreEqual(1 + 2.5, result); // Value set in native.i
         }
 
