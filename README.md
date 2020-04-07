@@ -1,9 +1,19 @@
 # Swig.NetStandard
 Using SWIG to wrap a nontrivial C++ DLL in C#
 
-Covers the following use cases:
+# Requirements
 
-- Source library DLL is standard C++11 compiled with MSVC 142 (Visual Studio 2019)
+- MSVC 142 (Visual Studio 2019)
+- SWIG 4 must be in the PATH
+
+    ``` batch
+	C:\>path
+	PATH=...;C:\Program Files (x86)\swigwin-4.0.1;...
+    ``` 
+
+# Features
+
+- Source library DLL is standard C++11
 - Target library DLL is .NET Standard 2.1
 - Cross-language polymorphism with SWIG Directors
     - Pseudo-interfaces with C++ pure virtual classes.
@@ -148,5 +158,6 @@ Covers the following use cases:
     1>Test.h(7): warning 314: 'base' is a C# keyword, renaming to 'base_'
     ``` 
 
+# Acknowledgements
+
 Thanks to https://github.com/xkbeyer/example_swig_cs_cpp for providing a starting point.
->>>>>>> 7cf52e93aea2e2a2197006526794f42caa967653
